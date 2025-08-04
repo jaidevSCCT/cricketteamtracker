@@ -9,6 +9,9 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.routing.routing
 import com.arx.routes.tournamentRoutes
 import com.arx.routes.matchRoutes
+import com.arx.routes.playerRoutes
+import com.arx.routes.financeRoutes
+
 
 // Required for application.yaml to work
 fun Application.module() {
@@ -19,6 +22,8 @@ fun Application.module() {
     routing {
         tournamentRoutes()
         matchRoutes()
+        playerRoutes()
+        financeRoutes()
     }
 }
 
