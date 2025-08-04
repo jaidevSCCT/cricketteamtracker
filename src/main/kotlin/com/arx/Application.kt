@@ -11,13 +11,15 @@ import com.arx.routes.tournamentRoutes
 import com.arx.routes.matchRoutes
 import com.arx.routes.playerRoutes
 import com.arx.routes.financeRoutes
+import com.arx.plugins.configureOpenApi
 
-
-// Required for application.yaml to work
 fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
+
+    // Configure OpenAPI and Swagger UI
+    configureOpenApi()
 
     routing {
         tournamentRoutes()
