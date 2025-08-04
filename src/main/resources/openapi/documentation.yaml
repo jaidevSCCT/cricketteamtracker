@@ -1,0 +1,146 @@
+openapi: 3.0.3
+info:
+  title: Cricket Team Management API
+  description: API for managing cricket teams, players, matches, and tournaments
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: allroundereleven4@gmail.com
+
+servers:
+  - url: http://localhost:8088
+    description: Development server
+
+paths:
+  /players:
+    get:
+      summary: Retrieve all players
+      operationId: getPlayers
+      responses:
+        '200':
+          description: List of players
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+    post:
+      summary: Add a new player
+      operationId: addPlayer
+      requestBody:
+        description: Player to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Player'
+      responses:
+        '201':
+          description: Player created
+
+  /matches:
+    get:
+      summary: Retrieve all matches
+      operationId: getMatches
+      responses:
+        '200':
+          description: List of matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+    post:
+      summary: Add a new match
+      operationId: addMatch
+      requestBody:
+        description: Match to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '201':
+          description: Match created
+
+  /tournaments:
+    get:
+      summary: Retrieve all tournaments
+      operationId: getTournaments
+      responses:
+        '200':
+          description: List of tournaments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tournament'
+    post:
+      summary: Add a new tournament
+      operationId: addTournament
+      requestBody:
+        description: Tournament to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tournament'
+      responses:
+        '201':
+          description: Tournament created
+
+components:
+  schemas:
+    Player:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        paidAmount:
+          type: number
+        paidByOwner:
+          type: number
+    Match:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+        overs:
+          type: integer
+        venue:
+          type: string
+        teamA:
+          type: string
+        teamB:
+          type: string
+        ballType:
+          type: string
+        players:
+          type: array
+          items:
+            type: string
+        unpaidPlayers:
+          type: array
+          items:
+            type: string
+        ownerMatchFee:
+          type: number
+    Tournament:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        matches:
+          type: array
+          items:
+            type: string
