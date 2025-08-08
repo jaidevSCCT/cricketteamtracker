@@ -23,14 +23,21 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:${ktorVersion}")
     implementation("io.ktor:ktor-server-content-negotiation:${ktorVersion}")
     implementation("io.ktor:ktor-serialization-kotlinx-json:${ktorVersion}")
-// OpenAPI
+    implementation("io.ktor:ktor-server-cors:${ktorVersion}")
+    
+    // OpenAPI and Swagger
     implementation("io.ktor:ktor-server-openapi:${ktorVersion}")
     implementation("io.ktor:ktor-server-swagger:${ktorVersion}")
 
     // MongoDB
     implementation("org.litote.kmongo:kmongo-coroutine:4.11.0")
+    
     // Logging
     implementation("ch.qos.logback:logback-classic:1.5.13")
+
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.1")
+
 
     // Kotlin Test + JUnit 5
     testImplementation(kotlin("test"))

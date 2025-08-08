@@ -50,6 +50,7 @@ fun Route.playerRoutes() {
 
         // Create a new player
         post {
+            println("Creating a new player")
             try {
                 val player = call.receive<Player>()
                 val result = MongoDataSource.playerCollection.insertOne(player)
