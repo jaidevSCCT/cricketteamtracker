@@ -33,15 +33,13 @@ private fun calculateTotalLoss(
     matches: List<Match>,
     players: List<Player>
 ): Double {
-    val unpaidPlayerFees = matches.sumOf { match ->
-        val avgFee = match.ownerMatchFee
-        val unpaidCount = match.unpaidPlayers.size
-        unpaidCount * avgFee
-    }
+    // Owner paid the entire match fee themselves in some matches
+    val totalMatchFeesPaidByOwner = matches.sumOf { it.totalMatchFee }
 
-    val ownerMatchFees = matches.sumOf { it.ownerMatchFee }
-
+    // Amount directly given to players outside match fee
     val paidToPlayers = players.sumOf { it.paidByOwner }
 
-    return unpaidPlayerFees + ownerMatchFees + paidToPlayers
+    // Final loss = total match fees + side payments to players
+    return totalMatchFeesPaidByOwner + paidToPlayers
 }
+

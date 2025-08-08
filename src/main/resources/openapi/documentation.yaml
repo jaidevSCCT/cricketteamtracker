@@ -8,7 +8,7 @@ info:
     email: allroundereleven4@gmail.com
 
 servers:
-  - url: http://localhost:8088
+  - url: http://localhost:9090
     description: Development server
 
 paths:
@@ -100,6 +100,8 @@ components:
       properties:
         id:
           type: string
+          format: uuid
+          example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
         name:
           type: string
         paidAmount:
@@ -111,6 +113,8 @@ components:
       properties:
         id:
           type: string
+          format: uuid
+          example: "b1a2d480-3371-4bfe-a1d2-8b7c71b9d29a"
         date:
           type: string
         overs:
@@ -133,11 +137,15 @@ components:
             type: string
         ownerMatchFee:
           type: number
+        totalMatchFee:
+          type: number
     Tournament:
       type: object
       properties:
         id:
           type: string
+          format: uuid
+          example: "e9b1e630-3cf6-4122-8a4a-f16e20e889a1"
         name:
           type: string
         matches:

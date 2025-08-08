@@ -1,5 +1,17 @@
 # cricketteamtracker
 
+# 🏏 Cricket Team Tracker - Project Summary
+
+## 📌 Project Overview
+This project is an Android + Ktor backend application designed to manage a corporate cricket team. It allows tracking of:
+
+- Tournaments and matches
+- Players and their match participation
+- Player payments and match fee contributions
+- Match schedules and overall financial loss (if owner pays players)
+
+The backend uses a RESTful API to communicate with the Android app and stores data in MongoDB.
+
 This project was created using the [Ktor Project Generator](https://start.ktor.io).
 
 Here are some useful links to get you started:
