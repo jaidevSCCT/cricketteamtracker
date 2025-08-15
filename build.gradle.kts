@@ -15,6 +15,7 @@ application {
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")  // Required for dotenv-kotlin
 }
 
 dependencies {
@@ -38,6 +39,9 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.1")
 
+
+    // Environment variables
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
 
     // Kotlin Test + JUnit 5
     testImplementation(kotlin("test"))

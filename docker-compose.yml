@@ -1,0 +1,21 @@
+# no 'version:' needed for Compose v2
+name: cricket-stack
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile      # optional if filename is "Dockerfile"
+    image: cricket-app:latest
+    container_name: cricket-app-tracker
+    env_file: ./.env
+    environment:
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+    # For local MongoDB (not Atlas), add this on Linux/WSL:
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
