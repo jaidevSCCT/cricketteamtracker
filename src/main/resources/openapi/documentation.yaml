@@ -1,154 +1,637 @@
 openapi: 3.0.3
 info:
-  title: Cricket Team Management API
-  description: API for managing cricket teams, players, matches, and tournaments
-  version: 1.0.0
-  contact:
-    name: API Support
-    email: allroundereleven4@gmail.com
-
+  title: My Cricket App API
+  version: 1.1.0
+  description: |
+    API for tournaments, matches, and players. - **POST /matches** accepts player **names**; the server upserts players, resolves IDs,
+      computes totals, and returns the created Match with `participants[].playerId`.
 servers:
   - url: http://localhost:9090
-    description: Development server
-
+tags:
+  - name: Tournaments
+  - name: Matches
+  - name: Players
+  - name: Finance
 paths:
-  /players:
-    get:
-      summary: Retrieve all players
-      operationId: getPlayers
-      responses:
-        '200':
-          description: List of players
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Player'
-    post:
-      summary: Add a new player
-      operationId: addPlayer
-      requestBody:
-        description: Player to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Player'
-      responses:
-        '201':
-          description: Player created
-
-  /matches:
-    get:
-      summary: Retrieve all matches
-      operationId: getMatches
-      responses:
-        '200':
-          description: List of matches
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Match'
-    post:
-      summary: Add a new match
-      operationId: addMatch
-      requestBody:
-        description: Match to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Match'
-      responses:
-        '201':
-          description: Match created
-
   /tournaments:
     get:
-      summary: Retrieve all tournaments
-      operationId: getTournaments
+      tags:
+        - Tournaments
+      summary: List tournaments
       responses:
         '200':
-          description: List of tournaments
+          description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Tournament'
+      operationId: listTournaments
     post:
-      summary: Add a new tournament
-      operationId: addTournament
+      tags:
+        - Tournaments
+      summary: Create a tournament
       requestBody:
-        description: Tournament to create
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tournament'
+              $ref: '#/components/schemas/TournamentCreateRequest'
+            examples:
+              createTournament:
+                value:
+                  name: ARX Premier League 2025
+                  matchCount: 0
       responses:
         '201':
-          description: Tournament created
-
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tournament'
+      operationId: createTournament
+  /tournaments/{id}:
+    get:
+      tags:
+        - Tournaments
+      summary: Get a tournament by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tournament'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getTournamentById
+  /matches:
+    get:
+      tags:
+        - Matches
+      summary: List matches (optionally by tournament)
+      parameters:
+        - in: query
+          name: tournamentId
+          schema:
+            type: string
+            format: uuid
+          description: Filter matches for a given tournament.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+      operationId: listMatches
+    post:
+      tags:
+        - Matches
+      summary: Create a match (participants by name; server resolves player IDs)
+      description: |
+        Send player **names** and amounts. The server upserts players, computes totals, and returns the saved Match with `participants[].playerId` populated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchCreateRequest'
+            examples:
+              createMatch:
+                summary: Example create request
+                value:
+                  tournamentId: uuid-tournament-1
+                  date: '2025-08-03'
+                  overs: 30
+                  venue: Cricket Socials
+                  teamA: ALLROUNDERS XI
+                  teamB: Challengers
+                  ballType: Leather
+                  feePerPlayer: 200
+                  participants:
+                    - name: jaidev
+                      tag: OWNER
+                      paidByPlayer: 200
+                      coveredByOwner: 0
+                    - name: prakash
+                      tag: PLAYER
+                      paidByPlayer: 0
+                      coveredByOwner: 200
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+              examples:
+                createdMatch:
+                  summary: Created match (IDs resolved, totals computed)
+                  value:
+                    id: uuid-match-1
+                    tournamentId: uuid-tournament-1
+                    date: '2025-08-03'
+                    overs: 30
+                    venue: Cricket Socials
+                    teamA: ALLROUNDERS XI
+                    teamB: Challengers
+                    ballType: Leather
+                    feePerPlayer: 200
+                    ownerMatchFee: 200
+                    totalMatchFee: 400
+                    participants:
+                      - playerId: uuid-1
+                        name: jaidev
+                        tag: OWNER
+                        paidByPlayer: 200
+                        coveredByOwner: 0
+                      - playerId: uuid-2
+                        name: prakash
+                        tag: PLAYER
+                        paidByPlayer: 0
+                        coveredByOwner: 200
+                    createdAt: '2025-08-03T14:01:00Z'
+                    updatedAt: '2025-08-03T14:01:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      operationId: createMatch
+  /matches/{id}:
+    get:
+      tags:
+        - Matches
+      summary: Get a match by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getMatchById
+  /players:
+    get:
+      tags:
+        - Players
+      summary: List players
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+      operationId: listPlayers
+    post:
+      tags:
+        - Players
+      summary: Create a player (direct)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerCreateRequest'
+            examples:
+              createPlayer:
+                value:
+                  name: Jaidev
+                  tag: OWNER
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+      operationId: createPlayer
+  /players/{id}:
+    get:
+      tags:
+        - Players
+      summary: Get a player by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getPlayerById
+  /finance/total-loss:
+    get:
+      tags:
+        - Finance
+      summary: Get total owner loss across all matches
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FinanceTotal'
+              examples:
+                example:
+                  value:
+                    totalOwnerLoss: 4200
+      operationId: getTotalOwnerLoss
+  /finance/by-match:
+    get:
+      tags:
+        - Finance
+      summary: Get owner loss per match
+      description: Returns an array with owner loss for each match.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FinanceByMatchItem'
+              examples:
+                example:
+                  value:
+                    - matchId: uuid-match-1
+                      date: '2025-08-03'
+                      tournamentId: uuid-tournament-1
+                      ownerLoss: 200
+                    - matchId: uuid-match-2
+                      date: '2025-08-07'
+                      tournamentId: uuid-tournament-1
+                      ownerLoss: 0
+      operationId: getOwnerLossByMatch
+  /finance/by-tournament/{tournamentId}:
+    get:
+      tags:
+        - Finance
+      summary: Get total owner loss for a tournament
+      parameters:
+        - in: path
+          name: tournamentId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FinanceTournamentTotal'
+              examples:
+                example:
+                  value:
+                    tournamentId: uuid-tournament-1
+                    totalOwnerLoss: 400
+        '400':
+          description: Missing or invalid tournamentId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getTotalOwnerLossByTournament
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              value:
+                message: Not found
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            bad:
+              value:
+                message: Validation failed
   schemas:
-    Player:
+    Tournament:
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: string
           format: uuid
-          example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
         name:
           type: string
-        paidAmount:
-          type: number
-        paidByOwner:
-          type: number
+        matchCount:
+          type: integer
+          minimum: 0
+          default: 0
+      example:
+        id: uuid-tournament-1
+        name: ARX Premier League 2025
+        matchCount: 3
+    TournamentCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        matchCount:
+          type: integer
+          minimum: 0
+          default: 0
     Match:
       type: object
+      required:
+        - id
+        - tournamentId
+        - date
+        - venue
+        - participants
       properties:
         id:
           type: string
           format: uuid
-          example: "b1a2d480-3371-4bfe-a1d2-8b7c71b9d29a"
+        tournamentId:
+          type: string
+          format: uuid
         date:
           type: string
+          description: Date string (e.g., ISO-8601 "2025-08-03" or your chosen format)
+          example: '2025-08-03'
         overs:
           type: integer
+          default: 20
         venue:
           type: string
         teamA:
           type: string
+          default: ARX11
         teamB:
           type: string
+          default: ARX12
         ballType:
           type: string
-        players:
-          type: array
-          items:
-            type: string
-        unpaidPlayers:
-          type: array
-          items:
-            type: string
+          example: Leather
+        feePerPlayer:
+          type: integer
+          minimum: 0
+          default: 0
         ownerMatchFee:
-          type: number
+          type: integer
+          minimum: 0
+          default: 0
         totalMatchFee:
-          type: number
-    Tournament:
+          type: integer
+          minimum: 0
+          default: 0
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    MatchCreateRequest:
       type: object
+      required:
+        - tournamentId
+        - date
+        - venue
+        - participants
+      properties:
+        tournamentId:
+          type: string
+          format: uuid
+        date:
+          type: string
+          description: Date string (e.g., ISO-8601)
+          example: '2025-08-03'
+        overs:
+          type: integer
+          default: 20
+        venue:
+          type: string
+        teamA:
+          type: string
+          default: ARX11
+        teamB:
+          type: string
+          default: ARX12
+        ballType:
+          type: string
+          example: Leather
+        feePerPlayer:
+          type: integer
+          minimum: 0
+          default: 0
+        participants:
+          type: array
+          description: Participants by name; server resolves playerId and updates
+            player totals.
+          items:
+            $ref: '#/components/schemas/ParticipantInput'
+    Participant:
+      type: object
+      required:
+        - playerId
+        - name
+      properties:
+        playerId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        tag:
+          $ref: '#/components/schemas/PlayerTag'
+        paidByPlayer:
+          type: integer
+          minimum: 0
+          default: 0
+        coveredByOwner:
+          type: integer
+          minimum: 0
+          default: 0
+    ParticipantInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Player name; server does case-insensitive lookup/upsert.
+          example: jaidev
+        tag:
+          $ref: '#/components/schemas/PlayerTag'
+        paidByPlayer:
+          type: integer
+          minimum: 0
+          default: 0
+        coveredByOwner:
+          type: integer
+          minimum: 0
+          default: 0
+    Player:
+      type: object
+      required:
+        - id
+        - name
+        - normalizedName
+        - totals
       properties:
         id:
           type: string
           format: uuid
-          example: "e9b1e630-3cf6-4122-8a4a-f16e20e889a1"
         name:
           type: string
+        normalizedName:
+          type: string
+          description: Lowercased/trimmed name used for unique lookups.
+          example: jaidev
+        tag:
+          $ref: '#/components/schemas/PlayerTag'
+        totals:
+          $ref: '#/components/schemas/PlayerTotals'
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: uuid-1
+        name: Jaidev
+        normalizedName: jaidev
+        tag: OWNER
+        totals:
+          matchAmount: 6000
+          ownerCovered: 2000
+          matches: 12
+        updatedAt: '2025-08-03T14:01:00Z'
+    PlayerCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        tag:
+          $ref: '#/components/schemas/PlayerTag'
+    PlayerTotals:
+      type: object
+      required:
+        - matchAmount
+        - ownerCovered
+        - matches
+      properties:
+        matchAmount:
+          type: integer
+          minimum: 0
+          description: Sum of per-player match fees across all matches this player
+            played.
+          default: 0
+        ownerCovered:
+          type: integer
+          minimum: 0
+          description: Sum covered by owner on behalf of this player across matches.
+          default: 0
         matches:
-          type: array
-          items:
-            type: string
+          type: integer
+          minimum: 0
+          description: Number of matches this player participated in.
+          default: 0
+    PlayerTag:
+      type: string
+      enum:
+        - OWNER
+        - PLAYER
+      default: PLAYER
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    FinanceTotal:
+      type: object
+      required:
+        - totalOwnerLoss
+      properties:
+        totalOwnerLoss:
+          type: number
+          format: double
+          description: Total owner loss across all matches.
+    FinanceByMatchItem:
+      type: object
+      required:
+        - matchId
+        - date
+        - tournamentId
+        - ownerLoss
+      properties:
+        matchId:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date
+          description: Match date (YYYY-MM-DD).
+        tournamentId:
+          type: string
+          format: uuid
+        ownerLoss:
+          type: number
+          format: double
+          description: Owner loss for this match.
+    FinanceTournamentTotal:
+      type: object
+      required:
+        - tournamentId
+        - totalOwnerLoss
+      properties:
+        tournamentId:
+          type: string
+          format: uuid
+        totalOwnerLoss:
+          type: number
+          format: double
+          description: Total owner loss for the specified tournament.

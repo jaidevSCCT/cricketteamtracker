@@ -9,14 +9,14 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import io.ktor.server.routing.route
 import io.ktor.server.routing.application
-import org.bson.types.ObjectId
+import io.ktor.server.routing.route
 import org.litote.kmongo.eq
+import java.util.Locale
 
 fun Route.playerRoutes() {
     route("/players") {
-        // Get all players
+
         get {
             try {
                 val players = MongoDataSource.playerCollection.find().toList()
@@ -27,44 +27,29 @@ fun Route.playerRoutes() {
             }
         }
 
-        // Get player by ID
         get("/{id}") {
-            val id = call.parameters["id"]
-            if (id == null || !ObjectId.isValid(id)) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid or missing player ID.")
-                return@get
-            }
-
+            val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing player ID.")
             try {
                 val player = MongoDataSource.playerCollection.findOne(Player::id eq id)
-                if (player != null) {
-                    call.respond(player)
-                } else {
-                    call.respond(HttpStatusCode.NotFound, "Player not found with id: $id")
-                }
+                if (player != null) call.respond(player) else call.respond(HttpStatusCode.NotFound, "Player not found")
             } catch (e: Exception) {
-                application.log.error("Error retrieving player with id=$id", e)
+                application.log.error("Error retrieving player $id", e)
                 call.respond(HttpStatusCode.InternalServerError, "Error retrieving player.")
             }
         }
 
-        // Create a new player
         post {
-            println("Creating a new player")
             try {
-                val player = call.receive<Player>()
-                val result = MongoDataSource.playerCollection.insertOne(player)
-                if (result.wasAcknowledged()) {
-                    call.respond(HttpStatusCode.Created, player)
-                } else {
-                    call.respond(HttpStatusCode.InternalServerError, "Failed to create player")
-                }
+                val incoming = call.receive<Player>()
+                // ensure normalizedName is consistent if client didn't send it
+                val norm = incoming.name.trim().lowercase(Locale.getDefault())
+                val toSave = incoming.copy(normalizedName = incoming.normalizedName.ifBlank { norm })
+                val result = MongoDataSource.playerCollection.insertOne(toSave)
+                if (result.wasAcknowledged()) call.respond(HttpStatusCode.Created, toSave)
+                else call.respond(HttpStatusCode.InternalServerError, "Failed to create player")
             } catch (e: Exception) {
                 application.log.error("Failed to create player", e)
-                call.respond(
-                    HttpStatusCode.InternalServerError,
-                    "Failed to create player: ${e.message ?: "Unknown error"}"
-                )
+                call.respond(HttpStatusCode.InternalServerError, "Failed to create player: ${e.message ?: "Unknown error"}")
             }
         }
     }

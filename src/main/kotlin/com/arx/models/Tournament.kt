@@ -9,5 +9,6 @@ data class Tournament(
     @BsonId
     val id: String = UUID.randomUUID().toString(),
     val name: String,
-    val matches: List<String> // match IDs
+    val matchCount: Int = 0,            // optional rollup
 )
+
