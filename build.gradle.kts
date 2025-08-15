@@ -33,6 +33,9 @@ dependencies {
     // MongoDB
     implementation("org.litote.kmongo:kmongo-coroutine:4.11.0")
     
+    // Kotlinx Serialization DateTime for Instant serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    
     // Logging
     implementation("ch.qos.logback:logback-classic:1.5.13")
 

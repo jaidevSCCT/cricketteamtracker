@@ -12,11 +12,11 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.routing.application
 
-import org.bson.types.ObjectId
 import org.litote.kmongo.eq
 
 fun Route.tournamentRoutes() {
     route("/tournaments") {
+
         get {
             try {
                 val tournaments = MongoDataSource.tournamentCollection.find().toList()
@@ -26,36 +26,24 @@ fun Route.tournamentRoutes() {
                 call.respond(HttpStatusCode.InternalServerError, "Unable to retrieve tournaments.")
             }
         }
-        
-        get("/{id}") {
-            val id = call.parameters["id"]
-            if (id == null || !ObjectId.isValid(id)) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid or missing ID.")
-                return@get
-            }
 
+        get("/{id}") {
+            val id = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing ID.")
             try {
                 val tournament = MongoDataSource.tournamentCollection.findOne(Tournament::id eq id)
-                if (tournament != null) {
-                    call.respond(tournament)
-                } else {
-                    call.respond(HttpStatusCode.NotFound, "Tournament not found with id: $id")
-                }
+                if (tournament != null) call.respond(tournament) else call.respond(HttpStatusCode.NotFound, "Tournament not found")
             } catch (e: Exception) {
-                application.log.error("Error retrieving tournament with id=$id", e)
+                application.log.error("Error retrieving tournament $id", e)
                 call.respond(HttpStatusCode.InternalServerError, "Error retrieving tournament.")
             }
         }
-        
+
         post {
             try {
                 val newTournament = call.receive<Tournament>()
                 val result = MongoDataSource.tournamentCollection.insertOne(newTournament)
-                if (result.wasAcknowledged()) {
-                    call.respond(HttpStatusCode.Created, newTournament)
-                } else {
-                    call.respond(HttpStatusCode.InternalServerError, "Failed to create tournament")
-                }
+                if (result.wasAcknowledged()) call.respond(HttpStatusCode.Created, newTournament)
+                else call.respond(HttpStatusCode.InternalServerError, "Failed to create tournament")
             } catch (e: Exception) {
                 application.log.error("Error creating tournament", e)
                 call.respond(HttpStatusCode.InternalServerError, "Error creating tournament: ${e.message}")
