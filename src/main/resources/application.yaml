@@ -19,5 +19,5 @@ ktor:
         - "Authorization"
 
 mongo:
-  uri: "mongodb://localhost:27017"
-  database: "cricket_db"
+  uri: "mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@cricketdbcluster.q4yjowv.mongodb.net/cricket_db?retryWrites=true&w=majority"
+  database: "${MONGO_DATABASE}"

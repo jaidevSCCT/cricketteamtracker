@@ -11,7 +11,13 @@ import org.litote.kmongo.coroutine.CoroutineDatabase
 object MongoDataSource {
     private val mongoConfig = ConfigLoader.loadMongoConfig()
 
-    private val client = KMongo.createClient(mongoConfig.uri)
+    private val effectiveUri = System.getenv("MONGO_URI") ?: mongoConfig.uri
+    
+    init {
+        println("MongoDB Connection URI: $effectiveUri")
+    }
+    
+    private val client = KMongo.createClient(effectiveUri)
     private val database: CoroutineDatabase = client.getDatabase(mongoConfig.database).coroutine
 
     val matchCollection = database.getCollection<Match>("matches")

@@ -1,0 +1,17 @@
+mongo:
+  uri: "mongodb://localhost:27017"
+  database: "cricket_db"
+
+ktor:
+  cors:
+    allowedOrigins:
+      - "localhost:9090"
+      - "127.0.0.1:9090"
+    allowedMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+    allowedHeaders:
+      - "Content-Type"
+      - "Authorization"
