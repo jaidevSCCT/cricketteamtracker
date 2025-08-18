@@ -7,12 +7,112 @@ info:
       computes totals, and returns the created Match with `participants[].playerId`.
 servers:
   - url: http://localhost:9090
+  - url: http://192.168.68.100:9090
 tags:
   - name: Tournaments
   - name: Matches
   - name: Players
   - name: Finance
+  - name: Owner Ledger
+
 paths:
+  /owner-ledger:
+    get:
+      tags: [ Owner Ledger ]
+      summary: List owner ledger entries
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/OwnerLedgerEntry' }
+
+    post:
+      tags: [ Owner Ledger ]
+      summary: Create an owner ledger entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/OwnerLedgerEntryCreate' }
+            examples:
+              example:
+                value:
+                  date: "2025-08-12"
+                  paidAmount: 1500
+                  teamName: "Corporate Titans"
+                  ground: "Cricket Socials"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/OwnerLedgerEntry' }
+  /owner-ledger/total:
+      get:
+        tags: [ Owner Ledger ]
+        summary: Total amount owner has given across all teams
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    totalOwnerGiven:
+                      type: integer
+                      minimum: 0
+                examples:
+                  example:
+                    value: { totalOwnerGiven: 4500 }
+  /owner-ledger/total-by-team:
+      get:
+        tags: [ Owner Ledger ]
+        summary: Total amount owner has given for a specific team
+        parameters:
+          - in: query
+            name: teamName
+            required: true
+            schema: { type: string }
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    teamName: { type: string }
+                    totalOwnerGiven: { type: integer, minimum: 0 }
+                examples:
+                  example:
+                    value: { teamName: "Corporate Titans", totalOwnerGiven: 1500 }
+          '400':
+            $ref: '#/components/responses/BadRequest'
+  /owner-ledger/by-team:
+      get:
+        tags: [ Owner Ledger ]
+        summary: Per-team rollup of owner’s given amounts
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      teamName: { type: string }
+                      totalOwnerGiven: { type: integer, minimum: 0 }
+                examples:
+                  example:
+                    value:
+                      - { teamName: "Corporate Titans", totalOwnerGiven: 1500 }
+                      - { teamName: "Weekend Warriors", totalOwnerGiven: 3000 }
   /tournaments:
     get:
       tags:
@@ -265,6 +365,39 @@ paths:
                   value:
                     totalOwnerLoss: 4200
       operationId: getTotalOwnerLoss
+  /finance/owner-total:
+    get:
+      tags: [ Finance ]
+      summary: Grand total owner outflow (match losses + owner ledger totals)
+      description: >
+        Returns the owner's combined outflow:
+        - matchOwnerLoss: sum of participants.coveredByOwner across all matches
+        - ownerLedgerTotal: sum of paidAmount across owner-ledger entries
+        - grandTotalOutflow = matchOwnerLoss + ownerLedgerTotal
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ matchOwnerLoss, ownerLedgerTotal, grandTotalOutflow ]
+                properties:
+                  matchOwnerLoss:
+                    type: integer
+                    minimum: 0
+                  ownerLedgerTotal:
+                    type: integer
+                    minimum: 0
+                  grandTotalOutflow:
+                    type: integer
+                    minimum: 0
+              examples:
+                example:
+                  value:
+                    matchOwnerLoss: 2200
+                    ownerLedgerTotal: 4500
+                    grandTotalOutflow: 6700
   /finance/by-match:
     get:
       tags:
@@ -512,6 +645,52 @@ components:
           type: integer
           minimum: 0
           default: 0
+    OwnerLedgerEntry:
+      type: object
+      required:
+        - id
+        - date
+        - paidAmount
+        - teamName
+        - ground
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          example:  "2025-08-12"
+        paidAmount:
+          type: integer
+          minimum: 0
+          example: 1000
+        teamName:
+          type: string
+          example: ARX11
+        ground:
+          type: string
+          example: "ARX Stadium"
+    OwnerLedgerEntryCreate:
+      type: object
+      required:
+        - date
+        - paidAmount
+        - teamName
+        - ground
+      properties:
+        date:
+          type: string
+          example:  "2025-08-12"
+        paidAmount:
+          type: integer
+          minimum: 0
+          example: 1000
+        teamName:
+          type: string
+          example: ARX11
+        ground:
+          type: string
+          example: "ARX Stadium"
     Player:
       type: object
       required:

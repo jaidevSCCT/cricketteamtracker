@@ -9,6 +9,7 @@ ktor:
       allowedOrigins:
         - "localhost:9090"
         - "127.0.0.1:9090"
+        - "192.168.68.100:9090"
       allowedMethods:
         - "GET"
         - "POST"

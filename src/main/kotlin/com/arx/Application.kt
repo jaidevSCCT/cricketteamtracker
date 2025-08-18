@@ -13,6 +13,8 @@ import com.arx.routes.matchRoutes
 import com.arx.routes.playerRoutes
 import com.arx.routes.financeRoutes
 import com.arx.plugins.configureOpenApi
+import com.arx.routes.financeOwnerTotalRoute
+import com.arx.routes.ownerLedgerRoutes
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.http.HttpMethod
 
@@ -44,6 +46,8 @@ fun Application.module() {
         matchRoutes()
         playerRoutes()
         financeRoutes()
+        financeOwnerTotalRoute()
+        ownerLedgerRoutes()
     }
 }
 
