@@ -6,8 +6,11 @@ info:
     API for tournaments, matches, and players. - **POST /matches** accepts player **names**; the server upserts players, resolves IDs,
       computes totals, and returns the created Match with `participants[].playerId`.
 servers:
-  - url: http://localhost:9090
-  - url: http://192.168.68.100:9090
+  - url: http://{host}:9090
+    variables:
+      host:
+        default: localhost
+
 tags:
   - name: Tournaments
   - name: Matches

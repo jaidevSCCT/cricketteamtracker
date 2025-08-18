@@ -1211,7 +1211,7 @@ computes totals, and returns the created Match with <code>participants[].playerI
                           <div class="tab-pane active" id="examples-Finance-financeOwnerTotalGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/owner-total"</code></pre>
+"http://{host}:9090/finance/owner-total"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1494,7 +1494,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Finance-getOwnerLossByMatch-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/by-match"</code></pre>
+"http://{host}:9090/finance/by-match"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-getOwnerLossByMatch-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1771,7 +1771,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Finance-getTotalOwnerLoss-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/total-loss"</code></pre>
+"http://{host}:9090/finance/total-loss"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-getTotalOwnerLoss-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2036,7 +2036,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Finance-getTotalOwnerLossByTournament-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/by-tournament/{tournamentId}"</code></pre>
+"http://{host}:9090/finance/by-tournament/{tournamentId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-getTotalOwnerLossByTournament-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2401,7 +2401,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/matches"</code></pre>
+"http://{host}:9090/matches"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Matches-createMatch-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2916,7 +2916,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Matches-getMatchById-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/matches/{id}"</code></pre>
+"http://{host}:9090/matches/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Matches-getMatchById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3220,7 +3220,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Matches-listMatches-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/matches?tournamentId="</code></pre>
+"http://{host}:9090/matches?tournamentId="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Matches-listMatches-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3524,7 +3524,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/owner-ledger/by-team"</code></pre>
+"http://{host}:9090/owner-ledger/by-team"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3806,7 +3806,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/owner-ledger"</code></pre>
+"http://{host}:9090/owner-ledger"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4069,7 +4069,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/owner-ledger"</code></pre>
+"http://{host}:9090/owner-ledger"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4431,7 +4431,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/owner-ledger/total-by-team?teamName="</code></pre>
+"http://{host}:9090/owner-ledger/total-by-team?teamName="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4750,7 +4750,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerTotalGet-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/owner-ledger/total"</code></pre>
+"http://{host}:9090/owner-ledger/total"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5026,7 +5026,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/players"</code></pre>
+"http://{host}:9090/players"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Players-createPlayer-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5374,7 +5374,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Players-getPlayerById-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/players/{id}"</code></pre>
+"http://{host}:9090/players/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Players-getPlayerById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5678,7 +5678,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Players-listPlayers-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/players"</code></pre>
+"http://{host}:9090/players"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Players-listPlayers-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5944,7 +5944,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/tournaments"</code></pre>
+"http://{host}:9090/tournaments"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Tournaments-createTournament-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6292,7 +6292,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Tournaments-getTournamentById-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/tournaments/{id}"</code></pre>
+"http://{host}:9090/tournaments/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Tournaments-getTournamentById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6596,7 +6596,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Tournaments-listTournaments-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/tournaments"</code></pre>
+"http://{host}:9090/tournaments"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Tournaments-listTournaments-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
