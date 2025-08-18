@@ -25,6 +25,14 @@ POST /tournaments → get tournamentId
 POST /matches (names only) → auto-create/resolve players → updates player totals
 GET /players → view all players and cumulative stats
 
+## Owner Ledger
+
+Use the Owner Ledger to track matches the owner plays with other teams and any amounts the owner paid outside your tournament matches.
+POST /owner-ledger — append an entry: { date, paidAmount, teamName, ground }
+GET /owner-ledger/total — returns the total amount given by the owner
+GET /owner-ledger/total-by-team?teamName=… — total given for a specific team
+GET /owner-ledger/by-team — per-team rollup of owner’s total given
+
 
 ## Features
 

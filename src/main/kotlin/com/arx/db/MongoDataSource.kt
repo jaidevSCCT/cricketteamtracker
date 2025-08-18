@@ -4,6 +4,7 @@ import com.arx.config.ConfigLoader
 import com.arx.models.Match
 import com.arx.models.Tournament
 import com.arx.models.Player
+import com.arx.models.OwnerLedgerEntry
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.coroutine.CoroutineDatabase
@@ -23,4 +24,5 @@ object MongoDataSource {
     val matchCollection = database.getCollection<Match>("matches")
     val tournamentCollection = database.getCollection<Tournament>("tournaments")
     val playerCollection = database.getCollection<Player>("players")
+    val ownerLedgerCollection = database.getCollection<OwnerLedgerEntry>("ownersLedger")
 }

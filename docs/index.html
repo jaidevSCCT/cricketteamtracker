@@ -861,6 +861,56 @@
     }
   }
 };
+            defs["OwnerLedgerEntry"] = {
+  "required" : [ "date", "ground", "id", "paidAmount", "teamName" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "string",
+      "format" : "uuid"
+    },
+    "date" : {
+      "type" : "string",
+      "example" : "2025-08-12"
+    },
+    "paidAmount" : {
+      "minimum" : 0,
+      "type" : "integer",
+      "example" : 1000
+    },
+    "teamName" : {
+      "type" : "string",
+      "example" : "ARX11"
+    },
+    "ground" : {
+      "type" : "string",
+      "example" : "ARX Stadium"
+    }
+  }
+};
+            defs["OwnerLedgerEntryCreate"] = {
+  "required" : [ "date", "ground", "paidAmount", "teamName" ],
+  "type" : "object",
+  "properties" : {
+    "date" : {
+      "type" : "string",
+      "example" : "2025-08-12"
+    },
+    "paidAmount" : {
+      "minimum" : 0,
+      "type" : "integer",
+      "example" : 1000
+    },
+    "teamName" : {
+      "type" : "string",
+      "example" : "ARX11"
+    },
+    "ground" : {
+      "type" : "string",
+      "example" : "ARX Stadium"
+    }
+  }
+};
             defs["Participant"] = {
   "required" : [ "name", "playerId" ],
   "type" : "object",
@@ -1046,6 +1096,9 @@
             <li class="nav-fixed nav-header active" data-group="_"><a href="#api-_">API Summary</a></li>
 
                   <li class="nav-header" data-group="Finance"><a href="#api-Finance">API Methods - Finance</a></li>
+                    <li data-group="Finance" data-name="financeOwnerTotalGet" class="">
+                      <a href="#api-Finance-financeOwnerTotalGet">financeOwnerTotalGet</a>
+                    </li>
                     <li data-group="Finance" data-name="getOwnerLossByMatch" class="">
                       <a href="#api-Finance-getOwnerLossByMatch">getOwnerLossByMatch</a>
                     </li>
@@ -1064,6 +1117,22 @@
                     </li>
                     <li data-group="Matches" data-name="listMatches" class="">
                       <a href="#api-Matches-listMatches">listMatches</a>
+                    </li>
+                  <li class="nav-header" data-group="OwnerLedger"><a href="#api-OwnerLedger">API Methods - OwnerLedger</a></li>
+                    <li data-group="OwnerLedger" data-name="ownerLedgerByTeamGet" class="">
+                      <a href="#api-OwnerLedger-ownerLedgerByTeamGet">ownerLedgerByTeamGet</a>
+                    </li>
+                    <li data-group="OwnerLedger" data-name="ownerLedgerGet" class="">
+                      <a href="#api-OwnerLedger-ownerLedgerGet">ownerLedgerGet</a>
+                    </li>
+                    <li data-group="OwnerLedger" data-name="ownerLedgerPost" class="">
+                      <a href="#api-OwnerLedger-ownerLedgerPost">ownerLedgerPost</a>
+                    </li>
+                    <li data-group="OwnerLedger" data-name="ownerLedgerTotalByTeamGet" class="">
+                      <a href="#api-OwnerLedger-ownerLedgerTotalByTeamGet">ownerLedgerTotalByTeamGet</a>
+                    </li>
+                    <li data-group="OwnerLedger" data-name="ownerLedgerTotalGet" class="">
+                      <a href="#api-OwnerLedger-ownerLedgerTotalGet">ownerLedgerTotalGet</a>
                     </li>
                   <li class="nav-header" data-group="Players"><a href="#api-Players">API Methods - Players</a></li>
                     <li data-group="Players" data-name="createPlayer" class="">
@@ -1107,6 +1176,290 @@ computes totals, and returns the created Match with <code>participants[].playerI
         <div id="sections">
                 <section id="api-Finance">
                   <h1>Finance</h1>
+                    <div id="api-Finance-financeOwnerTotalGet">
+                      <article id="api-Finance-financeOwnerTotalGet-0" data-group="User" data-name="financeOwnerTotalGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>financeOwnerTotalGet</h1>
+                          <p>Grand total owner outflow (match losses + owner ledger totals)</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Returns the owner&#x27;s combined outflow: - matchOwnerLoss: sum of participants.coveredByOwner across all matches - ownerLedgerTotal: sum of paidAmount across owner-ledger entries - grandTotalOutflow &#x3D; matchOwnerLoss + ownerLedgerTotal
+</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/finance/owner-total</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Finance-financeOwnerTotalGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Finance-financeOwnerTotalGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Finance-financeOwnerTotalGet-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://{host}:9090/finance/owner-total"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.FinanceApi;
+
+import java.io.File;
+import java.util.*;
+
+public class FinanceApiExample {
+
+    public static void main(String[] args) {
+        
+        FinanceApi apiInstance = new FinanceApi();
+        try {
+            Object result = apiInstance.financeOwnerTotalGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FinanceApi#financeOwnerTotalGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.FinanceApi;
+
+public class FinanceApiExample {
+
+    public static void main(String[] args) {
+        FinanceApi apiInstance = new FinanceApi();
+        try {
+            Object result = apiInstance.financeOwnerTotalGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FinanceApi#financeOwnerTotalGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+FinanceApi *apiInstance = [[FinanceApi alloc] init];
+
+// Grand total owner outflow (match losses + owner ledger totals)
+[apiInstance financeOwnerTotalGetWithCompletionHandler: 
+              ^(Object output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MyCricketAppApi = require('my_cricket_app_api');
+
+var api = new MyCricketAppApi.FinanceApi()
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.financeOwnerTotalGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class financeOwnerTotalGetExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new FinanceApi();
+
+            try
+            {
+                // Grand total owner outflow (match losses + owner ledger totals)
+                Object result = apiInstance.financeOwnerTotalGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FinanceApi.financeOwnerTotalGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiFinanceApi();
+
+try {
+    $result = $api_instance->financeOwnerTotalGet();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FinanceApi->financeOwnerTotalGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::FinanceApi;
+
+my $api_instance = WWW::SwaggerClient::FinanceApi->new();
+
+eval { 
+    my $result = $api_instance->financeOwnerTotalGet();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling FinanceApi->financeOwnerTotalGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Finance-financeOwnerTotalGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.FinanceApi()
+
+try: 
+    # Grand total owner outflow (match losses + owner ledger totals)
+    api_response = api_instance.finance_owner_total_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling FinanceApi->financeOwnerTotalGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-financeOwnerTotalGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-financeOwnerTotalGet-200-schema">
+                                  <div id='responses-financeOwnerTotalGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "required" : [ "grandTotalOutflow", "matchOwnerLoss", "ownerLedgerTotal" ],
+        "type" : "object",
+        "properties" : {
+          "matchOwnerLoss" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "ownerLedgerTotal" : {
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "grandTotalOutflow" : {
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "x-content-type" : "application/json"
+      },
+      "examples" : {
+        "example" : {
+          "value" : {
+            "matchOwnerLoss" : 2200,
+            "ownerLedgerTotal" : 4500,
+            "grandTotalOutflow" : 6700
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-financeOwnerTotalGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-financeOwnerTotalGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-financeOwnerTotalGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Finance-getOwnerLossByMatch">
                       <article id="api-Finance-getOwnerLossByMatch-0" data-group="User" data-name="getOwnerLossByMatch" data-version="0">
                         <div class="pull-left">
@@ -1141,7 +1494,7 @@ computes totals, and returns the created Match with <code>participants[].playerI
                           <div class="tab-pane active" id="examples-Finance-getOwnerLossByMatch-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/by-match"</code></pre>
+"http://{host}:9090/finance/by-match"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-getOwnerLossByMatch-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1418,7 +1771,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Finance-getTotalOwnerLoss-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/total-loss"</code></pre>
+"http://{host}:9090/finance/total-loss"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-getTotalOwnerLoss-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1683,7 +2036,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Finance-getTotalOwnerLossByTournament-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/finance/by-tournament/{tournamentId}"</code></pre>
+"http://{host}:9090/finance/by-tournament/{tournamentId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Finance-getTotalOwnerLossByTournament-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2048,7 +2401,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/matches"</code></pre>
+"http://{host}:9090/matches"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Matches-createMatch-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2563,7 +2916,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Matches-getMatchById-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/matches/{id}"</code></pre>
+"http://{host}:9090/matches/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Matches-getMatchById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2867,7 +3220,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Matches-listMatches-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/matches?tournamentId="</code></pre>
+"http://{host}:9090/matches?tournamentId="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Matches-listMatches-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3135,6 +3488,1507 @@ except ApiException as e:
                       </div>
                       <hr>
                   </section>
+                <section id="api-OwnerLedger">
+                  <h1>OwnerLedger</h1>
+                    <div id="api-OwnerLedger-ownerLedgerByTeamGet">
+                      <article id="api-OwnerLedger-ownerLedgerByTeamGet-0" data-group="User" data-name="ownerLedgerByTeamGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>ownerLedgerByTeamGet</h1>
+                          <p>Per-team rollup of owner’s given amounts</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/owner-ledger/by-team</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerByTeamGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://{host}:9090/owner-ledger/by-team"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OwnerLedgerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        try {
+            array[Object] result = apiInstance.ownerLedgerByTeamGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerByTeamGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OwnerLedgerApi;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        try {
+            array[Object] result = apiInstance.ownerLedgerByTeamGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerByTeamGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+OwnerLedgerApi *apiInstance = [[OwnerLedgerApi alloc] init];
+
+// Per-team rollup of owner’s given amounts
+[apiInstance ownerLedgerByTeamGetWithCompletionHandler: 
+              ^(array[Object] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MyCricketAppApi = require('my_cricket_app_api');
+
+var api = new MyCricketAppApi.OwnerLedgerApi()
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.ownerLedgerByTeamGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class ownerLedgerByTeamGetExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new OwnerLedgerApi();
+
+            try
+            {
+                // Per-team rollup of owner’s given amounts
+                array[Object] result = apiInstance.ownerLedgerByTeamGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OwnerLedgerApi.ownerLedgerByTeamGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiOwnerLedgerApi();
+
+try {
+    $result = $api_instance->ownerLedgerByTeamGet();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OwnerLedgerApi->ownerLedgerByTeamGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OwnerLedgerApi;
+
+my $api_instance = WWW::SwaggerClient::OwnerLedgerApi->new();
+
+eval { 
+    my $result = $api_instance->ownerLedgerByTeamGet();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OwnerLedgerApi->ownerLedgerByTeamGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerByTeamGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OwnerLedgerApi()
+
+try: 
+    # Per-team rollup of owner’s given amounts
+    api_response = api_instance.owner_ledger_by_team_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OwnerLedgerApi->ownerLedgerByTeamGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ownerLedgerByTeamGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-ownerLedgerByTeamGet-200-schema">
+                                  <div id='responses-ownerLedgerByTeamGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "teamName" : {
+              "type" : "string"
+            },
+            "totalOwnerGiven" : {
+              "minimum" : 0,
+              "type" : "integer"
+            }
+          }
+        },
+        "x-content-type" : "application/json"
+      },
+      "examples" : {
+        "example" : {
+          "value" : [ {
+            "teamName" : "Corporate Titans",
+            "totalOwnerGiven" : 1500
+          }, {
+            "teamName" : "Weekend Warriors",
+            "totalOwnerGiven" : 3000
+          } ]
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-ownerLedgerByTeamGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-ownerLedgerByTeamGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-ownerLedgerByTeamGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-OwnerLedger-ownerLedgerGet">
+                      <article id="api-OwnerLedger-ownerLedgerGet-0" data-group="User" data-name="ownerLedgerGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>ownerLedgerGet</h1>
+                          <p>List owner ledger entries</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/owner-ledger</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-OwnerLedger-ownerLedgerGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerGet-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://{host}:9090/owner-ledger"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OwnerLedgerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        try {
+            array[OwnerLedgerEntry] result = apiInstance.ownerLedgerGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OwnerLedgerApi;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        try {
+            array[OwnerLedgerEntry] result = apiInstance.ownerLedgerGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+OwnerLedgerApi *apiInstance = [[OwnerLedgerApi alloc] init];
+
+// List owner ledger entries
+[apiInstance ownerLedgerGetWithCompletionHandler: 
+              ^(array[OwnerLedgerEntry] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MyCricketAppApi = require('my_cricket_app_api');
+
+var api = new MyCricketAppApi.OwnerLedgerApi()
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.ownerLedgerGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class ownerLedgerGetExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new OwnerLedgerApi();
+
+            try
+            {
+                // List owner ledger entries
+                array[OwnerLedgerEntry] result = apiInstance.ownerLedgerGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OwnerLedgerApi.ownerLedgerGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiOwnerLedgerApi();
+
+try {
+    $result = $api_instance->ownerLedgerGet();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OwnerLedgerApi->ownerLedgerGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OwnerLedgerApi;
+
+my $api_instance = WWW::SwaggerClient::OwnerLedgerApi->new();
+
+eval { 
+    my $result = $api_instance->ownerLedgerGet();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OwnerLedgerApi->ownerLedgerGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OwnerLedgerApi()
+
+try: 
+    # List owner ledger entries
+    api_response = api_instance.owner_ledger_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OwnerLedgerApi->ownerLedgerGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ownerLedgerGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-ownerLedgerGet-200-schema">
+                                  <div id='responses-ownerLedgerGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/OwnerLedgerEntry"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-ownerLedgerGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-ownerLedgerGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-ownerLedgerGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-OwnerLedger-ownerLedgerPost">
+                      <article id="api-OwnerLedger-ownerLedgerPost-0" data-group="User" data-name="ownerLedgerPost" data-version="0">
+                        <div class="pull-left">
+                          <h1>ownerLedgerPost</h1>
+                          <p>Create an owner ledger entry</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/owner-ledger</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-OwnerLedger-ownerLedgerPost-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-java">Java</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerPost-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerPost-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+-H "Content-Type: application/json"\
+"http://{host}:9090/owner-ledger"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OwnerLedgerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        OwnerLedgerEntryCreate body = {
+  "value" : {
+    "date" : "2025-08-12",
+    "paidAmount" : 1500,
+    "teamName" : "Corporate Titans",
+    "ground" : "Cricket Socials"
+  }
+}; // OwnerLedgerEntryCreate | 
+        try {
+            OwnerLedgerEntry result = apiInstance.ownerLedgerPost(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OwnerLedgerApi;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        OwnerLedgerEntryCreate body = {
+  "value" : {
+    "date" : "2025-08-12",
+    "paidAmount" : 1500,
+    "teamName" : "Corporate Titans",
+    "ground" : "Cricket Socials"
+  }
+}; // OwnerLedgerEntryCreate | 
+        try {
+            OwnerLedgerEntry result = apiInstance.ownerLedgerPost(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">OwnerLedgerEntryCreate *body = {
+  "value" : {
+    "date" : "2025-08-12",
+    "paidAmount" : 1500,
+    "teamName" : "Corporate Titans",
+    "ground" : "Cricket Socials"
+  }
+}; // 
+
+OwnerLedgerApi *apiInstance = [[OwnerLedgerApi alloc] init];
+
+// Create an owner ledger entry
+[apiInstance ownerLedgerPostWith:body
+              completionHandler: ^(OwnerLedgerEntry output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MyCricketAppApi = require('my_cricket_app_api');
+
+var api = new MyCricketAppApi.OwnerLedgerApi()
+var body = {
+  "value" : {
+    "date" : "2025-08-12",
+    "paidAmount" : 1500,
+    "teamName" : "Corporate Titans",
+    "ground" : "Cricket Socials"
+  }
+}; // {{OwnerLedgerEntryCreate}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.ownerLedgerPost(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class ownerLedgerPostExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new OwnerLedgerApi();
+            var body = new OwnerLedgerEntryCreate(); // OwnerLedgerEntryCreate | 
+
+            try
+            {
+                // Create an owner ledger entry
+                OwnerLedgerEntry result = apiInstance.ownerLedgerPost(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OwnerLedgerApi.ownerLedgerPost: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiOwnerLedgerApi();
+$body = {
+  "value" : {
+    "date" : "2025-08-12",
+    "paidAmount" : 1500,
+    "teamName" : "Corporate Titans",
+    "ground" : "Cricket Socials"
+  }
+}; // OwnerLedgerEntryCreate | 
+
+try {
+    $result = $api_instance->ownerLedgerPost($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OwnerLedgerApi->ownerLedgerPost: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OwnerLedgerApi;
+
+my $api_instance = WWW::SwaggerClient::OwnerLedgerApi->new();
+my $body = WWW::SwaggerClient::Object::OwnerLedgerEntryCreate->new(); # OwnerLedgerEntryCreate | 
+
+eval { 
+    my $result = $api_instance->ownerLedgerPost(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OwnerLedgerApi->ownerLedgerPost: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerPost-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OwnerLedgerApi()
+body = {
+  "value" : {
+    "date" : "2025-08-12",
+    "paidAmount" : 1500,
+    "teamName" : "Corporate Titans",
+    "ground" : "Cricket Socials"
+  }
+} # OwnerLedgerEntryCreate | 
+
+try: 
+    # Create an owner ledger entry
+    api_response = api_instance.owner_ledger_post(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OwnerLedgerApi->ownerLedgerPost: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/OwnerLedgerEntryCreate"
+      },
+      "examples" : {
+        "example" : {
+          "value" : {
+            "date" : "2025-08-12",
+            "paidAmount" : 1500,
+            "teamName" : "Corporate Titans",
+            "ground" : "Cricket Socials"
+          }
+        }
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_ownerLedgerPost_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_ownerLedgerPost_body"></div>
+                                </td>
+                                </tr>
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - Created </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ownerLedgerPost-201-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-ownerLedgerPost-201-schema">
+                                  <div id='responses-ownerLedgerPost-201-schema-201' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Created",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/OwnerLedgerEntry"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-ownerLedgerPost-201-schema-data').val(stringify(schema));
+                                        var result = $('#responses-ownerLedgerPost-201-schema-201');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-ownerLedgerPost-201-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-OwnerLedger-ownerLedgerTotalByTeamGet">
+                      <article id="api-OwnerLedger-ownerLedgerTotalByTeamGet-0" data-group="User" data-name="ownerLedgerTotalByTeamGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>ownerLedgerTotalByTeamGet</h1>
+                          <p>Total amount owner has given for a specific team</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/owner-ledger/total-by-team</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://{host}:9090/owner-ledger/total-by-team?teamName="</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OwnerLedgerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        String teamName = teamName_example; // String | 
+        try {
+            Object result = apiInstance.ownerLedgerTotalByTeamGet(teamName);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerTotalByTeamGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OwnerLedgerApi;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        String teamName = teamName_example; // String | 
+        try {
+            Object result = apiInstance.ownerLedgerTotalByTeamGet(teamName);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerTotalByTeamGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *teamName = teamName_example; // 
+
+OwnerLedgerApi *apiInstance = [[OwnerLedgerApi alloc] init];
+
+// Total amount owner has given for a specific team
+[apiInstance ownerLedgerTotalByTeamGetWith:teamName
+              completionHandler: ^(Object output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MyCricketAppApi = require('my_cricket_app_api');
+
+var api = new MyCricketAppApi.OwnerLedgerApi()
+var teamName = teamName_example; // {{String}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.ownerLedgerTotalByTeamGet(teamName, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class ownerLedgerTotalByTeamGetExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new OwnerLedgerApi();
+            var teamName = teamName_example;  // String | 
+
+            try
+            {
+                // Total amount owner has given for a specific team
+                Object result = apiInstance.ownerLedgerTotalByTeamGet(teamName);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OwnerLedgerApi.ownerLedgerTotalByTeamGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiOwnerLedgerApi();
+$teamName = teamName_example; // String | 
+
+try {
+    $result = $api_instance->ownerLedgerTotalByTeamGet($teamName);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OwnerLedgerApi->ownerLedgerTotalByTeamGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OwnerLedgerApi;
+
+my $api_instance = WWW::SwaggerClient::OwnerLedgerApi->new();
+my $teamName = teamName_example; # String | 
+
+eval { 
+    my $result = $api_instance->ownerLedgerTotalByTeamGet(teamName => $teamName);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OwnerLedgerApi->ownerLedgerTotalByTeamGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalByTeamGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OwnerLedgerApi()
+teamName = teamName_example # String | 
+
+try: 
+    # Total amount owner has given for a specific team
+    api_response = api_instance.owner_ledger_total_by_team_get(teamName)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OwnerLedgerApi->ownerLedgerTotalByTeamGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">teamName*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_ownerLedgerTotalByTeamGet_teamName">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ownerLedgerTotalByTeamGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-ownerLedgerTotalByTeamGet-200-schema">
+                                  <div id='responses-ownerLedgerTotalByTeamGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "object",
+        "properties" : {
+          "teamName" : {
+            "type" : "string"
+          },
+          "totalOwnerGiven" : {
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "x-content-type" : "application/json"
+      },
+      "examples" : {
+        "example" : {
+          "value" : {
+            "teamName" : "Corporate Titans",
+            "totalOwnerGiven" : 1500
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-ownerLedgerTotalByTeamGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-ownerLedgerTotalByTeamGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-ownerLedgerTotalByTeamGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 -  </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-OwnerLedger-ownerLedgerTotalGet">
+                      <article id="api-OwnerLedger-ownerLedgerTotalGet-0" data-group="User" data-name="ownerLedgerTotalGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>ownerLedgerTotalGet</h1>
+                          <p>Total amount owner has given across all teams</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/owner-ledger/total</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-OwnerLedger-ownerLedgerTotalGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-OwnerLedger-ownerLedgerTotalGet-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://{host}:9090/owner-ledger/total"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OwnerLedgerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        try {
+            Object result = apiInstance.ownerLedgerTotalGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerTotalGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OwnerLedgerApi;
+
+public class OwnerLedgerApiExample {
+
+    public static void main(String[] args) {
+        OwnerLedgerApi apiInstance = new OwnerLedgerApi();
+        try {
+            Object result = apiInstance.ownerLedgerTotalGet();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OwnerLedgerApi#ownerLedgerTotalGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+OwnerLedgerApi *apiInstance = [[OwnerLedgerApi alloc] init];
+
+// Total amount owner has given across all teams
+[apiInstance ownerLedgerTotalGetWithCompletionHandler: 
+              ^(Object output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MyCricketAppApi = require('my_cricket_app_api');
+
+var api = new MyCricketAppApi.OwnerLedgerApi()
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.ownerLedgerTotalGet(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class ownerLedgerTotalGetExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new OwnerLedgerApi();
+
+            try
+            {
+                // Total amount owner has given across all teams
+                Object result = apiInstance.ownerLedgerTotalGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OwnerLedgerApi.ownerLedgerTotalGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiOwnerLedgerApi();
+
+try {
+    $result = $api_instance->ownerLedgerTotalGet();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OwnerLedgerApi->ownerLedgerTotalGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OwnerLedgerApi;
+
+my $api_instance = WWW::SwaggerClient::OwnerLedgerApi->new();
+
+eval { 
+    my $result = $api_instance->ownerLedgerTotalGet();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OwnerLedgerApi->ownerLedgerTotalGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-OwnerLedger-ownerLedgerTotalGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OwnerLedgerApi()
+
+try: 
+    # Total amount owner has given across all teams
+    api_response = api_instance.owner_ledger_total_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OwnerLedgerApi->ownerLedgerTotalGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-ownerLedgerTotalGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-ownerLedgerTotalGet-200-schema">
+                                  <div id='responses-ownerLedgerTotalGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "object",
+        "properties" : {
+          "totalOwnerGiven" : {
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "x-content-type" : "application/json"
+      },
+      "examples" : {
+        "example" : {
+          "value" : {
+            "totalOwnerGiven" : 4500
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-ownerLedgerTotalGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-ownerLedgerTotalGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-ownerLedgerTotalGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
                 <section id="api-Players">
                   <h1>Players</h1>
                     <div id="api-Players-createPlayer">
@@ -3172,7 +5026,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/players"</code></pre>
+"http://{host}:9090/players"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Players-createPlayer-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3520,7 +5374,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Players-getPlayerById-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/players/{id}"</code></pre>
+"http://{host}:9090/players/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Players-getPlayerById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3824,7 +5678,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Players-listPlayers-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/players"</code></pre>
+"http://{host}:9090/players"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Players-listPlayers-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4090,7 +5944,7 @@ except ApiException as e:
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
 -H "Accept: application/json"\
 -H "Content-Type: application/json"\
-"http://localhost:9090/tournaments"</code></pre>
+"http://{host}:9090/tournaments"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Tournaments-createTournament-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4438,7 +6292,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Tournaments-getTournamentById-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/tournaments/{id}"</code></pre>
+"http://{host}:9090/tournaments/{id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Tournaments-getTournamentById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4742,7 +6596,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Tournaments-listTournaments-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"http://localhost:9090/tournaments"</code></pre>
+"http://{host}:9090/tournaments"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Tournaments-listTournaments-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
